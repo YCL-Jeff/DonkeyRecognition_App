@@ -1,0 +1,18 @@
+{
+  "Inputs" : {
+    "input" : {
+      "MLFeatureShortDescription" : "Input image for feature extraction"
+    }
+  },
+  "Outputs" : {
+    "features" : {
+      "MLFeatureShortDescription" : "Extracted feature vector"
+    }
+  },
+  "TrainingInputs" : {
+
+  },
+  "States" : {
+
+  }
+}

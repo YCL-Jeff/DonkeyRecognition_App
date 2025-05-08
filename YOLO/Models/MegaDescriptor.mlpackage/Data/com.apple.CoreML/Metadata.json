@@ -1,0 +1,11 @@
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "MegaDescriptor model for feature extraction",
+  "MLModelCreatorDefinedKey" : {
+    "com.github.apple.coremltools.source_dialect" : "TorchScript",
+    "com.github.apple.coremltools.source" : "torch==2.2.0",
+    "com.github.apple.coremltools.version" : "7.2"
+  },
+  "MLModelAuthorKey" : "Lai",
+  "MLModelLicenseKey" : "--"
+}
