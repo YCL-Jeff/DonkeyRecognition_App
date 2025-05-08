@@ -14,6 +14,11 @@ var mlModel: MLModel = {
             do {
                 let contents = try fileManager.contentsOfDirectory(atPath: bundlePath as String)
                 print("Bundle 內容：\(contents)")
+                let modelsPath = bundlePath.appendingPathComponent("Models")
+                if fileManager.fileExists(atPath: modelsPath) {
+                    let modelsContents = try fileManager.contentsOfDirectory(atPath: modelsPath)
+                    print("Models/ 資料夾內容：\(modelsContents)")
+                }
             } catch {
                 print("無法列出 Bundle 內容：\(error)")
             }
@@ -35,6 +40,9 @@ var mlmodelConfig: MLModelConfiguration = {
     }
     return config
 }()
+
+// MegaDescriptor 模型
+var megaDescriptorModel: MLModel?
 
 struct DetectionResult {
     let boundingBox: CGRect
@@ -69,6 +77,9 @@ class ViewController: UIViewController {
     var longSide: CGFloat = 3
     var shortSide: CGFloat = 4
     var frameSizeCaptured = false
+    var features: [[Float]] = []
+    var labels: [String] = []
+    var featureVector: [Float]?
 
     let donkeyClassLabel = "donkey"
 
@@ -93,6 +104,71 @@ class ViewController: UIViewController {
         setUpOrientationChangeNotification()
         startVideo()
         setModel()
+
+        // 異步載入特徵庫
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let url = Bundle.main.url(forResource: "features_and_labels", withExtension: "json") {
+                print("找到 features_and_labels.json：\(url.path)")
+                do {
+                    let data = try Data(contentsOf: url)
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                    
+                    // 嘗試解析 features
+                    if let rawFeatures = json?["features"] as? [[Any]] {
+                        // 將 [[Any]] 轉換為 [[Float]]
+                        self.features = rawFeatures.map { feature in
+                            feature.compactMap { value in
+                                if let floatValue = value as? Float {
+                                    return floatValue
+                                } else if let doubleValue = value as? Double {
+                                    return Float(doubleValue)
+                                } else if let intValue = value as? Int {
+                                    return Float(intValue)
+                                }
+                                return nil
+                            }
+                        }
+                    } else {
+                        print("無法解析 features 數據，可能是格式不正確")
+                        self.features = []
+                    }
+
+                    // 解析 labels
+                    self.labels = (json?["labels"] as? [String]) ?? []
+                    
+                    print("成功載入 features_and_labels.json，features 數量：\(self.features.count)，labels 數量：\(self.labels.count)")
+                    
+                    // 檢查 features 和 labels 數量是否一致
+                    if self.features.count != self.labels.count {
+                        print("警告：features 和 labels 數量不一致，features: \(self.features.count), labels: \(self.labels.count)")
+                    }
+                    // 檢查第一個特徵向量的長度（應為 512）
+                    if let firstFeature = self.features.first {
+                        print("第一個特徵向量長度：\(firstFeature.count)")
+                        if firstFeature.count != 512 {
+                            print("警告：特徵向量長度不為 512，可能導致匹配失敗")
+                        }
+                    }
+                } catch {
+                    print("無法載入 features_and_labels.json 檔案，錯誤：\(error.localizedDescription)")
+                }
+            } else {
+                print("無法找到 features_and_labels.json 檔案，請確認檔案已正確添加到專案")
+            }
+        }
+
+        // 載入 MegaDescriptor 模型
+        do {
+            if let path = Bundle.main.path(forResource: "MegaDescriptor", ofType: "mlmodelc") {
+                let modelURL = URL(fileURLWithPath: path)
+                megaDescriptorModel = try MLModel(contentsOf: modelURL, configuration: MLModelConfiguration())
+                print("成功載入 MegaDescriptor 模型")
+            } else {
+                print("無法找到 MegaDescriptor.mlmodelc 檔案，請確認檔案已正確添加到專案")
+            }
+        } catch {
+            print("無法載入 MegaDescriptor 模型：\(error.localizedDescription)")
+        }
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
@@ -251,7 +327,45 @@ class ViewController: UIViewController {
                     observation.labels.contains { $0.identifier == self.donkeyClassLabel }
                 }
 
-                self.show(predictions: donkeyResults.map { DetectionResult(boundingBox: $0.boundingBox, name: "驢子", confidence: $0.confidence) })
+                guard let pixelBuffer = self.currentBuffer else {
+                    self.show(predictions: donkeyResults.map { DetectionResult(boundingBox: $0.boundingBox, name: "驢子", confidence: $0.confidence) })
+                    return
+                }
+                let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+
+                var updatedResults: [DetectionResult] = []
+                for observation in donkeyResults {
+                    let imgWidth = CGFloat(CVPixelBufferGetWidth(pixelBuffer))
+                    let imgHeight = CGFloat(CVPixelBufferGetHeight(pixelBuffer))
+                    let bbox = self.yoloToPixel(bbox: observation.boundingBox, imgWidth: imgWidth, imgHeight: imgHeight)
+
+                    guard !self.features.isEmpty, !self.labels.isEmpty,
+                          let croppedBuffer = self.preprocessImage(ciImage, bbox: bbox),
+                          let queryFeature = self.extractFeatures(from: croppedBuffer) else {
+                        updatedResults.append(DetectionResult(boundingBox: observation.boundingBox, name: "驢子", confidence: observation.confidence))
+                        print("無法進行特徵匹配，可能是 features 或 labels 為空，或特徵提取失敗")
+                        continue
+                    }
+
+                    // 打印提取的特徵向量以調試
+                    print("提取的特徵向量長度：\(queryFeature.count)")
+
+                    var bestScore: Float = -1.0
+                    var bestIndex = 0
+                    for (index, feature) in self.features.enumerated() {
+                        let score = self.cosineSimilarity(queryFeature, feature)
+                        if score > bestScore {
+                            bestScore = score
+                            bestIndex = index
+                        }
+                    }
+
+                    let donkeyName = self.labels[bestIndex].split(separator: "_").first ?? "驢子"
+                    updatedResults.append(DetectionResult(boundingBox: observation.boundingBox, name: String(donkeyName), confidence: observation.confidence))
+                    print("檢測到驢子：\(donkeyName)，置信度：\(observation.confidence * 100)%, 邊界框：\(observation.boundingBox)")
+                }
+
+                self.show(predictions: updatedResults)
             } else {
                 self.show(predictions: [])
             }
@@ -395,6 +509,98 @@ class ViewController: UIViewController {
         let width = bbox.width * imgWidth
         let height = bbox.height * imgHeight
         return CGRect(x: xMin, y: yMin, width: width, height: height)
+    }
+
+    func preprocessImage(_ image: CIImage, bbox: CGRect) -> CVPixelBuffer? {
+        let croppedImage = image.cropped(to: bbox)
+
+        let context = CIContext()
+        let resizedImage = croppedImage.transformed(by: CGAffineTransform(scaleX: 224.0 / croppedImage.extent.width, y: 224.0 / croppedImage.extent.height))
+
+        guard let cgImage = context.createCGImage(resizedImage, from: resizedImage.extent) else {
+            return nil
+        }
+
+        let width = 224
+        let height = 224
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, nil, &pixelBuffer)
+        guard status == kCVReturnSuccess, let buffer = pixelBuffer else {
+            return nil
+        }
+
+        CVPixelBufferLockBaseAddress(buffer, [])
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(buffer)
+        let baseAddress = CVPixelBufferGetBaseAddress(buffer)!
+        let context2 = CGContext(
+            data: baseAddress,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: bytesPerRow,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        )!
+        context2.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        CVPixelBufferUnlockBaseAddress(buffer, [])
+
+        return buffer
+    }
+
+    func extractFeatures(from pixelBuffer: CVPixelBuffer) -> [Float]? {
+        guard let megaDescriptorModel = megaDescriptorModel else {
+            print("MegaDescriptor 模型未載入")
+            return nil
+        }
+
+        guard let megaDescriptor = try? VNCoreMLModel(for: megaDescriptorModel) else {
+            print("無法創建 MegaDescriptor 的 VNCoreMLModel")
+            return nil
+        }
+
+        let request = VNCoreMLRequest(model: megaDescriptor) { request, error in
+            if let error = error {
+                print("特徵提取失敗：\(error.localizedDescription)")
+                return
+            }
+            guard let results = request.results as? [VNFeaturePrintObservation],
+                  let feature = results.first?.data else {
+                print("無法從 MegaDescriptor 提取特徵")
+                return
+            }
+            self.featureVector = feature.map { Float($0) }
+        }
+
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:])
+        do {
+            try handler.perform([request])
+        } catch {
+            print("執行特徵提取請求失敗：\(error.localizedDescription)")
+            return nil
+        }
+
+        if let featureVector = self.featureVector {
+            print("成功提取特徵向量，長度：\(featureVector.count)")
+            return featureVector
+        } else {
+            print("特徵向量為空")
+            return nil
+        }
+    }
+
+    func cosineSimilarity(_ vectorA: [Float], _ vectorB: [Float]) -> Float {
+        guard vectorA.count == vectorB.count else {
+            print("特徵向量長度不匹配：vectorA 長度 \(vectorA.count)，vectorB 長度 \(vectorB.count)")
+            return 0.0
+        }
+        let dotProduct = zip(vectorA, vectorB).map(*).reduce(0, +)
+        let magnitudeA = sqrt(vectorA.map { $0 * $0 }.reduce(0, +))
+        let magnitudeB = sqrt(vectorB.map { $0 * $0 }.reduce(0, +))
+        guard magnitudeA != 0, magnitudeB != 0 else {
+            print("特徵向量幅度為 0：magnitudeA \(magnitudeA)，magnitudeB \(magnitudeB)")
+            return 0.0
+        }
+        return dotProduct / (magnitudeA * magnitudeB)
     }
 }
 

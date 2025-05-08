@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2BC2F5902DCCB6670047FD85 /* best.mlpackage in Resources */ = {isa = PBXBuildFile; fileRef = 2BC2F58E2DCCB6610047FD85 /* best.mlpackage */; };
+		2BB84BAF2DCCCE69002C5CC0 /* MegaDescriptor.mlpackage in Resources */ = {isa = PBXBuildFile; fileRef = 2BEF292C2DCBCD7A005EB1C4 /* MegaDescriptor.mlpackage */; };
+		2BC2F5922DCCCDB30047FD85 /* best.mlpackage in Resources */ = {isa = PBXBuildFile; fileRef = 2BC2F5912DCCCDB30047FD85 /* best.mlpackage */; };
+		2BC2F5942DCCCDBB0047FD85 /* features_and_labels.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BC2F5932DCCCDBB0047FD85 /* features_and_labels.json */; };
 		633BC6FB22EDE73D00821BCA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 633BC6FA22EDE73D00821BCA /* Settings.bundle */; };
 		636166EA251443B20054FA7E /* ThresholdProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636166E9251443B20054FA7E /* ThresholdProvider.swift */; };
 		636EFCAA21E62DD300DE43BC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636EFC9C21E62DD300DE43BC /* ViewController.swift */; };
@@ -20,7 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2BC2F58E2DCCB6610047FD85 /* best.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = best.mlpackage; sourceTree = "<group>"; };
+		2BC2F5912DCCCDB30047FD85 /* best.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = best.mlpackage; sourceTree = "<group>"; };
+		2BC2F5932DCCCDBB0047FD85 /* features_and_labels.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = features_and_labels.json; sourceTree = "<group>"; };
 		2BEF292C2DCBCD7A005EB1C4 /* MegaDescriptor.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = MegaDescriptor.mlpackage; sourceTree = "<group>"; };
 		6323C44D22186177008AE681 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6323C44F22186177008AE681 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -70,7 +73,6 @@
 				633BC6FA22EDE73D00821BCA /* Settings.bundle */,
 				632892DF22EB3DB100A12D9C /* Info.plist */,
 				636EFCB821E62E3900DE43BC /* Assets.xcassets */,
-				2BC2F58E2DCCB6610047FD85 /* best.mlpackage */,
 			);
 			path = YOLO;
 			sourceTree = "<group>";
@@ -79,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				2BEF292C2DCBCD7A005EB1C4 /* MegaDescriptor.mlpackage */,
+				2BC2F5932DCCCDBB0047FD85 /* features_and_labels.json */,
+				2BC2F5912DCCCDB30047FD85 /* best.mlpackage */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -161,10 +165,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BC2F5902DCCB6670047FD85 /* best.mlpackage in Resources */,
+				2BC2F5922DCCCDB30047FD85 /* best.mlpackage in Resources */,
 				636EFCB921E62E3900DE43BC /* Assets.xcassets in Resources */,
+				2BB84BAF2DCCCE69002C5CC0 /* MegaDescriptor.mlpackage in Resources */,
 				63CF37202514455300E2DEA1 /* Main.storyboard in Resources */,
 				63CF371F2514455300E2DEA1 /* LaunchScreen.storyboard in Resources */,
+				2BC2F5942DCCCDBB0047FD85 /* features_and_labels.json in Resources */,
 				633BC6FB22EDE73D00821BCA /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

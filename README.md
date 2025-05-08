@@ -1,146 +1,167 @@
-<a href="https://www.ultralytics.com/" target="_blank"><img src="https://raw.githubusercontent.com/ultralytics/assets/main/logo/Ultralytics_Logotype_Original.svg" width="320" alt="Ultralytics logo"></a>
+Ask Elvis: Equine Long-Range Visual Identification System
 
-# 🚀 Ultralytics YOLO iOS App
 
-[![Ultralytics Actions](https://github.com/ultralytics/yolo-ios-app/actions/workflows/format.yml/badge.svg)](https://github.com/ultralytics/yolo-ios-app/actions/workflows/format.yml) <a href="https://discord.com/invite/ultralytics"><img alt="Discord" src="https://img.shields.io/discord/1089800235347353640?logo=discord&logoColor=white&label=Discord&color=blue"></a> <a href="https://community.ultralytics.com/"><img alt="Ultralytics Forums" src="https://img.shields.io/discourse/users?server=https%3A%2F%2Fcommunity.ultralytics.com&logo=discourse&label=Forums&color=blue"></a> <a href="https://reddit.com/r/ultralytics"><img alt="Ultralytics Reddit" src="https://img.shields.io/reddit/subreddit-subscribers/ultralytics?style=flat&logo=reddit&logoColor=white&label=Reddit&color=blue"></a>
 
-Welcome to the [Ultralytics YOLO iOS App](https://apps.apple.com/us/app/idetection/id1452689527) GitHub repository! 📖 Leveraging Ultralytics' advanced [YOLO11 object detection models](https://github.com/ultralytics/ultralytics), this app transforms your iOS device into an intelligent detection tool. Explore our guide to get started with the Ultralytics YOLO iOS App and discover the world in a new and exciting way.
 
-<div align="center">
-  <a href="https://apps.apple.com/us/app/idetection/id1452689527" target="_blank"><img width="90%" src="https://github.com/ultralytics/ultralytics/assets/26833433/fd3c8a92-fec0-4253-b4ac-ee94f5ced3fb" alt="Ultralytics YOLO iOS App previews"></a>
-  <br>
-  <a href="https://github.com/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="3%" alt="Ultralytics GitHub"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://www.linkedin.com/company/ultralytics/"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-linkedin.png" width="3%" alt="Ultralytics LinkedIn"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://twitter.com/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-twitter.png" width="3%" alt="Ultralytics Twitter"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://youtube.com/ultralytics?sub_confirmation=1"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-youtube.png" width="3%" alt="Ultralytics YouTube"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://www.tiktok.com/@ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-tiktok.png" width="3%" alt="Ultralytics TikTok"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://ultralytics.com/bilibili"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-bilibili.png" width="3%" alt="Ultralytics BiliBili"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://discord.com/invite/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-discord.png" width="3%" alt="Ultralytics Discord"></a>
-  <br>
-  <br>
-  <a href="https://apps.apple.com/us/app/idetection/id1452689527" style="text-decoration:none;">
-    <img src="https://raw.githubusercontent.com/ultralytics/assets/main/app/app-store.svg" width="15%" alt="Apple App store"></a>
-</div>
 
-## 🛠 Quickstart: Setting Up the Ultralytics YOLO iOS App
+Welcome to the Ask Elvis iOS App repository, developed for the Isle of Wight Donkey Sanctuary. This app leverages advanced object detection models under a non-commercial license from Ultralytics to enable long-range visual identification of donkeys by name. Designed for sanctuary staff and visitors, Ask Elvis enhances donkey recognition, supporting welfare and educational activities at the sanctuary.
 
-Getting started with the Ultralytics YOLO iOS App is straightforward. Follow these steps to install the app on your iOS device.
 
-### Prerequisites
+ 
 
-Ensure you have the following before you start:
 
-- **Xcode:** The Ultralytics YOLO iOS App requires Xcode installed on your macOS machine. Download it from the [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835).
 
-- **An iOS Device:** For testing the app, you'll need an iPhone or iPad running [iOS 14.0](https://www.apple.com/ios/ios-18/) or later. Note: trained models can only work on iPhone or iPad running **iOS 17.0** or later.
+🛠 Project Overview
 
-- **An Apple Developer Account:** A free Apple Developer account will suffice for device testing. Sign up [here](https://developer.apple.com/) if you haven't already.
+Ask Elvis is an iOS application designed to identify donkeys by name at the Isle of Wight Donkey Sanctuary using long-range visual detection. The app supports sanctuary operations by aiding staff in tracking donkey health and welfare and enhances visitor engagement through interactive donkey identification. My contributions include:
 
-### Installation
 
-1. **Clone the Repository:**
 
-   ```sh
-   git clone https://github.com/ultralytics/yolo-ios-app.git
-   ```
 
-2. **Open the Project in Xcode:**
 
-   Navigate to the cloned directory and open the `YOLO.xcodeproj` file.
+ONNX Conversion: Converted trained models to ONNX format for efficient deployment on iOS, ensuring compatibility with CoreML.
 
-   <p align="center">
-   <img width="50%" src="https://github.com/ultralytics/ultralytics/assets/26833433/e0053238-4a7c-4d18-8720-6ce24c73dea0" alt="XCode load project screenshot">
-   </p>
 
-   In Xcode, go to the project's target settings and choose your Apple Developer account under the "Signing & Capabilities" tab.
 
-3. **Add YOLO11 Models to the Project:**
+App Architecture: Developed a modular Swift-based app with a focus on user-friendly interfaces for sanctuary staff and visitors.
 
-   Since the YOLO CoreML models are not versioned in this repository, you'll need to either:
 
-   1. Create them by exporting your trained models to CoreML INT8 models using the `ultralytics` Python package (with `pip install ultralytics`).
 
-      ```python
-      from ultralytics import YOLO
+Performance Optimization: Optimized model inference through quantization, reducing latency for real-time identification on iOS devices.
 
-      # Load a trained YOLO11 PyTorch model
-      model = YOLO("path/to/your/trained/model.pt")
+Technical Considerations
 
-      # Export the PyTorch model to CoreML INT8 format with NMS layers
-      # The imgsz property may be adjusted when you export a trained model
-      model.export(format="coreml", int8=True, nms=True, imgsz=640)
-      ```
 
-   2. Download the base models from our [GitHub release assets](https://github.com/ultralytics/yolo-ios-app/releases).
 
-      ```python
-      from ultralytics import YOLO
 
-      # Loop through all YOLO11 model sizes and exclude any trained models from the loop
-      for size in ("n", "s", "m", "l", "x"):
-          # Load a base YOLO11 PyTorch model
-          model = YOLO(f"yolo11{size}.pt")
 
-          # Export the PyTorch model to CoreML INT8 format with NMS layers
-          model.export(format="coreml", int8=True, nms=True)
-      ```
+Model Conversion: Models are converted to ONNX with preprocessing steps including image normalization and resizing to 640x640. Input data uses RGB images with bounding box annotations in normalized coordinates, aligned with app requirements.
 
-   You should have 5 YOLO11 models in total. Place these in the `YOLO/Models` directory as seen in the Xcode screenshot below.
 
-4. **Run the Ultralytics YOLO iOS App:**
 
-   Connect your iOS device and select it as the run target. Press the Run button to install the app on your device.
+Target Devices: The app targets iOS devices running iOS 14.0 or later (iOS 17.0+ for optimized models). Minimum hardware is iPhone 8 or newer with an A11 Bionic chip.
 
-   <p align="center">
-   <img width="100%" src="https://github.com/ultralytics/ultralytics/assets/26833433/d2c6a7b7-fa8b-4130-a57f-4241f7a42ff2" alt="Ultralytics YOLO XCode screenshot">
-   </p>
 
-## 🚀 Usage
 
-The Ultralytics YOLO iOS App is designed to be intuitive:
+Experimental Plan: Testing involves evaluating quantized models for accuracy (mAP) and inference time across devices (e.g., iPhone 12 vs. iPhone 15). Sample data from the sanctuary (e.g., donkey images with name labels) would aid deployment testing.
 
-- **Real-Time Detection:** Launch the app and aim your camera at objects to detect them instantly.
-- **Multiple AI Models:** Select from a range of Ultralytics YOLO11 models, from YOLO11n 'nano' to YOLO11x 'x-large'.
 
-## 💡 Contribute
 
-We warmly welcome your contributions to Ultralytics' open-source projects! Your support and contributions significantly impact. Get involved by reviewing our [Contributing Guide](https://docs.ultralytics.com/help/contributing/), and share your feedback through our [Survey](https://www.ultralytics.com/survey?utm_source=github&utm_medium=social&utm_campaign=Survey). A massive thank you 🙏 to everyone who contributes!
+Application Scenarios: Features include offline identification for remote areas of the sanctuary and database synchronization to log donkey sightings, pending discussion with sanctuary staff.
 
-<a href="https://github.com/ultralytics/yolov5/graphs/contributors">
-<img width="100%" src="https://github.com/ultralytics/assets/raw/main/im/image-contributors.png" alt="Ultralytics open-source contributors"></a>
+🛠 Quickstart: Setting Up Ask Elvis
 
-## 📄 License
+Prerequisites
 
-Ultralytics offers two licensing options:
 
-- **AGPL-3.0 License**: An [OSI-approved](https://opensource.org/license) open-source license, perfect for academics, researchers, and enthusiasts. It encourages sharing knowledge and collaboration. See the [LICENSE](https://github.com/ultralytics/ultralytics/blob/main/LICENSE) file for details.
 
-- **Enterprise License**: Designed for commercial use, this license permits integrating Ultralytics software into proprietary products and services. For commercial use, please contact us through [Ultralytics Licensing](https://www.ultralytics.com/license).
 
-## 🤝 Contact
 
-- Submit Ultralytics bug reports and feature requests via [GitHub Issues](https://github.com/ultralytics/yolo-ios-app/issues).
-- Join our [Discord](https://discord.com/invite/ultralytics) for assistance, questions, and discussions with the community and team!
+Xcode: Install from the Mac App Store.
 
-<br>
-<div align="center">
-  <a href="https://github.com/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="3%" alt="Ultralytics GitHub"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://www.linkedin.com/company/ultralytics/"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-linkedin.png" width="3%" alt="Ultralytics LinkedIn"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://twitter.com/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-twitter.png" width="3%" alt="Ultralytics Twitter"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://youtube.com/ultralytics?sub_confirmation=1"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-youtube.png" width="3%" alt="Ultralytics YouTube"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://www.tiktok.com/@ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-tiktok.png" width="3%" alt="Ultralytics TikTok"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://ultralytics.com/bilibili"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-bilibili.png" width="3%" alt="Ultralytics BiliBili"></a>
-  <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="space">
-  <a href="https://discord.com/invite/ultralytics"><img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-discord.png" width="3%" alt="Ultralytics Discord"></a>
-</div>
+
+
+iOS Device: Requires iPhone/iPad running iOS 14.0 or later (iOS 17.0+ for optimized models).
+
+
+
+Apple Developer Account: Sign up at developer.apple.com.
+
+Installation
+
+
+
+
+
+Clone the Repository:
+
+git clone https://github.com/ultralytics/yolo-ios-app.git
+
+
+
+Open in Xcode:
+
+Open YOLO.xcodeproj in Xcode. Select your Apple Developer account under "Signing & Capabilities."
+
+
+
+Add Models:
+
+Convert trained models to ONNX or CoreML format:
+
+from ultralytics import YOLO
+
+model = YOLO("path/to/donkey_model.pt")
+model.export(format="onnx", int8=True, imgsz=640)
+
+Place models in the YOLO/Models directory.
+
+
+
+Run the App:
+
+Connect your iOS device, select it as the run target, and click Run in Xcode.
+
+🚀 Usage
+
+
+
+
+
+Real-Time Identification: Point the camera at a donkey to display its name and details (e.g., Jimbob, Angel).
+
+
+
+Model Selection: Choose from model sizes (nano to x-large) based on device capability and detection range.
+
+📚 Research Plan (ELEC6259 Coursework #3)
+
+
+
+
+
+Aims: Develop an iOS app for long-range donkey name identification to support Isle of Wight Donkey Sanctuary operations and visitor engagement.
+
+
+
+Methodology: Use ONNX for model conversion, Swift for app development, and CoreML for inference. Train models on sanctuary-provided donkey images with name labels. Test on iOS devices for accuracy and speed.
+
+
+
+Timeline: Weeks 1–4: Model training and conversion; Weeks 5–8: App development and UI design; Weeks 9–12: Performance testing and refinement (Gantt chart in coursework submission).
+
+
+
+Ethical Statement: No human data involved; ethical approval not required. The app respects donkey welfare by minimizing interaction stress.
+
+
+
+Health and Safety: No significant risks; app usage adheres to sanctuary safety guidelines (e.g., no smoking/vaping on-site).
+
+
+
+Environmental Impact: Minimal, leveraging existing devices for sustainable technology use.
+
+
+
+Data Management Plan: Detection logs stored securely on-device with optional cloud sync, encrypted to protect sanctuary data.
+
+
+
+Commercial Aspects: Limited to non-commercial use under Ultralytics’ license, with potential for educational tools at the sanctuary.
+
+
+
+Legal Aspects: Complies with Ultralytics’ non-commercial license and Apple’s App Store policies. No personal data collected, aligning with GDPR.
+
+💡 Contribute
+
+Contributions are welcome! Review our Contributing Guide and share feedback via our Survey.
+
+📄 License
+
+This project uses a non-commercial license from Ultralytics. See the LICENSE file for details.
+
+🤝 Contact
+
+For issues or questions, use GitHub Issues or join our Discord.
